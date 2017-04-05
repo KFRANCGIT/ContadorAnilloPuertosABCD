@@ -1,6 +1,6 @@
 #include <18f4620.h>
 #use delay(clock=16M)
-#fuses XT, NOFCMEN, NOIESO, PUT, NOBROWNOUT, NOWDT
+#fuses INTRC_IO, NOFCMEN, NOIESO, PUT, NOBROWNOUT, NOWDT
 #fuses NOPBADEN, NOMCLR, STVREN, NOLVP, NODEBUG
 #use FAST_IO(A)
 #use FAST_IO(B)
@@ -14,36 +14,36 @@ int8 contador2 = 0; //Conteo de puerto B 500 ms
 int8 contador3 = 0; //Conteo de puerto C 1000 ms
 int8 contador4 = 0; //Conteo de puerto D 1500 ms
 
-unsigned int8 anilloA = 1;
-unsigned int8 anilloB = 1;
-unsigned int8 anilloC = 1;
-unsigned int8 anilloD = 1;
+unsigned int8 anilloA = 128;
+unsigned int8 anilloB = 128;
+unsigned int8 anilloC = 128;
+unsigned int8 anilloD = 128;
 
 int1 banderaA = 0;
 int1 banderaB = 0;
 int1 banderaC = 0;
 int1 banderaD = 0;
 
-#int_timer0
+#int_TIMER0
 void isr_TMR0(void){ //Rutina de interrupcion
    contador1++;
    contador2++;
    contador3++;
    contador4++;
    
-   if(contador1 >= 6){
+   if(contador1 == 6){
       contador1 = 0;
       banderaA = 1;
    }
-   if(contador2 >= 32){
+   if(contador2 == 32){
       contador2 = 0;
       banderaB = 1;
    }
-   if(contador3 >= 61){
+   if(contador3 == 61){
       contador3 = 0;
       banderaC = 1;
    }
-   if(contador4 >= 91){
+   if(contador4 == 91){
       contador4 = 0;
       banderaD = 1;
    }
@@ -58,12 +58,20 @@ void isr_TMR0(void){ //Rutina de interrupcion
    
 }
    
-
+void rotacionAnilloA(int8 *anilloA);
+void rotacionAnilloB(int8 *anilloB);
+void rotacionAnilloC(int8 *anilloC);
+void rotacionAnilloD(unsigned int8 *anilloD);
 
 void main (void){
 
-   SETUP_OSCILLATOR(OSC_16MHZ);
-   SETUP_ADC_PORTS(NO_ANALOGS);
+   SET_TRIS_A(0x00);
+   SET_TRIS_B(0x00);
+   SET_TRIS_C(0x00);
+   SET_TRIS_D(0x00);
+   
+   SETUP_OSCILLATOR(OSC_NORMAL);
+   SETUP_ADC(NO_ANALOGS);
    
    SET_TIMER0(0); //Valor de TMR
    
@@ -72,13 +80,9 @@ void main (void){
    ENABLE_INTERRUPTS(INT_TIMER0);
    
    //Configuracion TMR
-   SETUP_TIMER_0(RTCC_INTERNAL | RTCC_DIV_256 |T0_8_BIT); //Predivisor
+   SETUP_TIMER_0(RTCC_INTERNAL | RTCC_DIV_256 | TO_8_BIT); //Predivisor
    
-   SET_TRIS_A(0x00);
-   SET_TRIS_B(0x00);
-   SET_TRIS_C(0x00);
-   SET_TRIS_D(0x00);
-   
+
    while(true){
       /*output_a(0xFF);
       output_b(0xFF);
@@ -88,35 +92,24 @@ void main (void){
       if(banderaA){
          banderaA = 0;
  
-         anilloA <<= 1;
-         if(anilloA == 0){
+         anilloA >>= 1;
+         if(anilloA == 128){
             anilloA = 1;
          }
+         //rotacionAnilloA(anilloA);
       }
       
-      if(banderaB){
+      /*if(banderaB){
          banderaB = 0;
-         
-         anilloB <<= 1;
-         if(anilloB == 0){
-            anilloB = 1;
-         }
+         rotacionAnilloA(anilloB);
       }
       if(banderaC){
          banderaC = 0;
-         
-         anilloC <<= 1;
-         if(anilloC == 0){
-            anilloC = 1;
-         }
+         rotacionAnilloC(anilloC);
       }
       if(banderaD){
          banderaD = 0;
-         
-         anilloD <<= 1;
-         if(anilloD == 0){
-            anilloD = 1;
-         }
+         rotacionAnilloD(anilloD);
       }
       
       /*
@@ -148,4 +141,33 @@ void main (void){
    }
 }
 
+void rotacionAnilloA(int8 *anilloA){
+   output_a(anilloA);
+   anilloA <<= 1;
+   if(anilloA == 128){
+      anilloA = 1;
+   }
+}
 
+void rotacionAnilloB(int8 *anilloB){
+   output_b(anilloB);
+   anilloB <<= 1;
+   if(anilloB == 128){
+      anilloB = 1;
+   }
+}
+void rotacionAnilloC(int8 *anilloC){
+   output_c(anilloC);
+   anilloC <<= 1;
+   if(anilloC == 128){
+      anilloC = 1;
+   }
+}
+
+void rotacionAnilloD(unsigned int8 *anilloD){
+   output_d(anilloD);
+   anilloD >>= 1;
+   if(anilloD == 128){
+      anilloD = 1;
+   }
+}

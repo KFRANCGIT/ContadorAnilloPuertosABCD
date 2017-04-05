@@ -1,7 +1,7 @@
-D G "__PCH__" 0 0 ""5.012""
-D G "__DEVICE__" 0 0 ""
-D G "__DATE__" 0 0 ""04-abr.-17""
-D G "__TIME__" 0 0 ""23:02:19"" "Standard Header file for the PIC18F4620 device ////////////////"
+D G "__PCH__" 0 153 ""5.012""
+D G "__DEVICE__" 0 153 "4620"
+D G "__DATE__" 0 153 ""05-abr.-17""
+D G "__TIME__" 0 153 ""01:02:43"" "Standard Header file for the PIC18F4620 device ////////////////"
 c L "set_tris_a" 1 3 6 "FUNCTION"
 v L "value" 1 43 "int8" `54 
 f B "set_tris_a" 1 43 "void(int8 value)" `53 
@@ -927,29 +927,12 @@ V G "banderaC" 0 24 "int1" `648
 V G "banderaD" 0 25 "int1" `649 
 F G "isr_TMR0" 0 28 "void()" `650  "Rutina de interrupcion"
 C L "isr_TMR0" 0 11 6 "FUNCTION"
-V L "??65535" 0 61 "int8" `652 
-f G "rotacionAnilloA" 0 61 "void(int8 )" `651 
-V L "??65535" 0 62 "int8" `654 
-f G "rotacionAnilloB" 0 62 "void(int8 )" `653 
-V L "??65535" 0 63 "int8" `656 
-f G "rotacionAnilloC" 0 63 "void(int8 )" `655 
-V L "??65535" 0 64 "int8" `658 
-f G "rotacionAnilloD" 0 64 "void(int8 )" `657 
-F G "MAIN" 0 66 "void()" `659 
+F G "MAIN" 0 63 "void()" `651 
+C L "MAIN" 0 11 2 "FUNCTION"
 C L "MAIN" 0 11 1 "FUNCTION"
 C L "MAIN" 0 11 1 "FUNCTION"
-C L "MAIN" 0 11 1 "FUNCTION"
-C L "MAIN" 0 11 1 "FUNCTION"
-C L "MAIN" 0 11 1 "FUNCTION"
-C L "MAIN" 0 11 19 "FUNCTION"
-V L "anilloA" 0 132 "int8" `663 
-F G "rotacionAnilloA" 0 132 "void(int8 anilloA)" `651 
-V L "anilloB" 0 140 "int8" `663 
-F G "rotacionAnilloB" 0 140 "void(int8 anilloB)" `653 
-V L "anilloC" 0 147 "int8" `663 
-F G "rotacionAnilloC" 0 147 "void(int8 anilloC)" `655 
-V L "anilloD" 0 155 "int8" `663 
-F G "rotacionAnilloD" 0 155 "void(int8 anilloD)" `657 
+C L "MAIN" 0 11 4 "FUNCTION"
+C L "MAIN" 0 11 15 "FUNCTION"
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep" 0 1

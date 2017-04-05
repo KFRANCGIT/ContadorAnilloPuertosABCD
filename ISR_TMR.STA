@@ -1,50 +1,47 @@
 
-ROM used:   400/65536 (1%)
-            400/65536 (1%) including unused fragments
+ROM used:   378/65536 (1%)
+            378/65536 (1%) including unused fragments
 
             0.4 Average locations per line
             5.9 Average locations per statement
 
 RAM used:   31/3968 (1%) at main() level
-            32/3968 (1%) worst case
+            31/3968 (1%) worst case
 
-Stack used: 2 worst case (1 in main + 1 for interrupts)
+Stack used: 1 worst case (0 in main + 1 for interrupts)
 Stack size: 31
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  162    68 100  ISR_TMR.c
+  152    64 100  ISR_TMR.c
   834     0   0  C:\Program Files (x86)\PICC\Devices\18f4620.h
 ----- -----
-  996    68 Total
+  986    64 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
-0     52   6    0   373  3.3  isr_TMR0
-0    138  17    0   553  3.3  MAIN
-0     20   2    1    93  2.9  rotacionAnilloA
-0     22   3    1    93  2.9  rotacionAnilloC
-0     22   3    1    93  2.9  rotacionAnilloD
- Inline         0             @cinit1
+0     54   7    0   373  3.3  isr_TMR0
+0    178  24    0   977  4.4  MAIN
+ Inline         0    99  3.3  @cinit1
 
 Program metrics:
-    Functions               5
-    Statements              68
-    Comments                193
-    Volume (V)              1687
-    Difficulty (D)          15.8
-    Effort to implement (E) 26649
-    Time to implement (T)   25 minutes
+    Functions               3
+    Statements              64
+    Comments                192
+    Volume (V)              1767
+    Difficulty (D)          11.4
+    Effort to implement (E) 20083
+    Time to implement (T)   19 minutes
     Est Delivered Bugs (B)  0
-    Cyclomatic Complexity   11
-    Maintainability (MI)    88
+    Cyclomatic Complexity   13
+    Maintainability (MI)    79
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00002     4  0  
 00004-00006     0  4  
 00008-00094   142  0  
-00096-0FFFE   254  65132  
+00096-0FFFE   232  65154  
 
 
 
