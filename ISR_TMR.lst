@@ -1,0 +1,356 @@
+CCS PCH C Compiler, Version 5.012, 41559               04-abr.-17 23:02
+
+               Filename:   D:\OneDrive\INGENIERIA TELEMATICA\4° Semestre\Sistemas Embebidos\PRACTICAS PROGRAMACION\ContadorAnilloPuertosABCD\ISR_TMR.lst
+
+               ROM used:   400 bytes (1%)
+                           Largest free fragment is 65132
+               RAM used:   31 (1%) at main() level
+                           32 (1%) worst case
+               Stack used: 2 locations (1 in main + 1 for interrupts)
+               Stack size: 31
+
+*
+00000:  GOTO   010A
+*
+00008:  MOVWF  04
+0000A:  MOVFF  FD8,05
+0000E:  MOVFF  FE0,06
+00012:  MOVLB  0
+00014:  MOVFF  FE9,0C
+00018:  MOVFF  FEA,07
+0001C:  MOVFF  FE1,08
+00020:  MOVFF  FE2,09
+00024:  MOVFF  FD9,0A
+00028:  MOVFF  FDA,0B
+0002C:  MOVFF  FF3,12
+00030:  MOVFF  FF4,13
+00034:  MOVFF  FFA,14
+00038:  MOVFF  00,0E
+0003C:  MOVFF  01,0F
+00040:  MOVFF  02,10
+00044:  MOVFF  03,11
+00048:  BTFSS  FF2.5
+0004A:  GOTO   0054
+0004E:  BTFSC  FF2.2
+00050:  GOTO   0096
+00054:  MOVFF  0E,00
+00058:  MOVFF  0F,01
+0005C:  MOVFF  10,02
+00060:  MOVFF  11,03
+00064:  MOVFF  0C,FE9
+00068:  MOVFF  07,FEA
+0006C:  BSF    07.7
+0006E:  MOVFF  08,FE1
+00072:  MOVFF  09,FE2
+00076:  MOVFF  0A,FD9
+0007A:  MOVFF  0B,FDA
+0007E:  MOVFF  12,FF3
+00082:  MOVFF  13,FF4
+00086:  MOVFF  14,FFA
+0008A:  MOVF   04,W
+0008C:  MOVFF  06,FE0
+00090:  MOVFF  05,FD8
+00094:  RETFIE 0
+.................... #include <18f4620.h> 
+.................... ///////////// Standard Header file for the PIC18F4620 device //////////////// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2013 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... #device PIC18F4620 
+....................  
+.................... #list 
+....................  
+.................... #use delay(clock=16M) 
+.................... #fuses INTRC_IO, NOFCMEN, NOIESO, PUT, NOBROWNOUT, NOWDT 
+.................... #fuses NOPBADEN, NOMCLR, STVREN, NOLVP, NODEBUG 
+.................... #use FAST_IO(A) 
+.................... #use FAST_IO(B) 
+.................... #use FAST_IO(C) 
+.................... #use FAST_IO(D) 
+....................  
+....................  
+.................... //Variables Globales 
+.................... int8 contador1 = 0; //Conteo de puerto A 100 ms 
+.................... int8 contador2 = 0; //Conteo de puerto B 500 ms 
+.................... int8 contador3 = 0; //Conteo de puerto C 1000 ms 
+.................... int8 contador4 = 0; //Conteo de puerto D 1500 ms 
+....................  
+.................... unsigned int8 anilloA = 1; 
+.................... unsigned int8 anilloB = 1; 
+.................... unsigned int8 anilloC = 1; 
+.................... unsigned int8 anilloD = 1; 
+....................  
+.................... int1 banderaA = 0; 
+.................... int1 banderaB = 0; 
+.................... int1 banderaC = 0; 
+.................... int1 banderaD = 0; 
+....................  
+.................... #int_TIMER0 
+.................... void isr_TMR0(void){ //Rutina de interrupcion 
+....................    contador1++; 
+00096:  INCF   16,F
+....................    contador2++; 
+00098:  INCF   17,F
+....................    contador3++; 
+0009A:  INCF   18,F
+....................    contador4++; 
+0009C:  INCF   19,F
+....................     
+....................    if(contador1 == 1){ 
+0009E:  DECFSZ 16,W
+000A0:  BRA    00A6
+....................       contador1 = 0; 
+000A2:  CLRF   16
+....................       banderaA = 1; 
+000A4:  BSF    1E.0
+....................    } 
+....................    if(contador2 == 5){ 
+000A6:  MOVF   17,W
+000A8:  SUBLW  05
+000AA:  BNZ   00B0
+....................       contador2 = 0; 
+000AC:  CLRF   17
+....................       banderaB = 1; 
+000AE:  BSF    1E.1
+....................    } 
+....................    if(contador3 == 10){ 
+000B0:  MOVF   18,W
+000B2:  SUBLW  0A
+000B4:  BNZ   00BA
+....................       contador3 = 0; 
+000B6:  CLRF   18
+....................       banderaC = 1; 
+000B8:  BSF    1E.2
+....................    } 
+....................    if(contador4 == 15){ 
+000BA:  MOVF   19,W
+000BC:  SUBLW  0F
+000BE:  BNZ   00C4
+....................       contador4 = 0; 
+000C0:  CLRF   19
+....................       banderaD = 1; 
+000C2:  BSF    1E.3
+....................    } 
+....................     
+....................    /* 
+....................    if (contadorUno == 10){ //Cuando pasa 10 veces 10 ms son 100 ms 
+....................       banderaContador = 1; //Se activa la bandera 
+....................       set_timer0(144); //Reinicia el tmr 
+....................    }else{ 
+....................       set_timer0(144); //Reinicia el tmr 
+....................    }*/ 
+....................     
+000C4:  BCF    FF2.2
+000C6:  GOTO   0054
+.................... } 
+....................     
+.................... void rotacionAnilloA(int8); 
+.................... void rotacionAnilloB(int8); 
+.................... void rotacionAnilloC(int8); 
+.................... void rotacionAnilloD(int8); 
+....................  
+.................... void main (void){ 
+*
+0010A:  CLRF   FF8
+0010C:  BCF    FD0.7
+0010E:  BSF    07.7
+00110:  CLRF   16
+00112:  CLRF   17
+00114:  CLRF   18
+00116:  CLRF   19
+00118:  MOVLW  01
+0011A:  MOVWF  1A
+0011C:  MOVWF  1B
+0011E:  MOVWF  1C
+00120:  MOVWF  1D
+00122:  BCF    1E.0
+00124:  BCF    1E.1
+00126:  BCF    1E.2
+00128:  BCF    1E.3
+0012A:  MOVF   FC1,W
+0012C:  ANDLW  C0
+0012E:  IORLW  0F
+00130:  MOVWF  FC1
+00132:  MOVLW  07
+00134:  MOVWF  FB4
+....................  
+....................    SET_TRIS_A(0x00); 
+00136:  MOVLW  00
+00138:  MOVWF  F92
+....................    SET_TRIS_B(0x00); 
+0013A:  MOVWF  F93
+....................    SET_TRIS_C(0x00); 
+0013C:  MOVWF  F94
+....................    SET_TRIS_D(0x00); 
+0013E:  MOVWF  F95
+....................     
+....................    SETUP_OSCILLATOR(OSC_NORMAL); 
+00140:  CLRF   FD3
+00142:  MOVF   FD3,W
+....................    SETUP_ADC(NO_ANALOGS); 
+00144:  MOVF   FC0,W
+00146:  ANDLW  C0
+00148:  IORLW  0F
+0014A:  MOVWF  FC0
+0014C:  BCF    FC0.7
+0014E:  BSF    FC2.0
+....................     
+....................    //Habilita interrupciones 
+....................    ENABLE_INTERRUPTS(GLOBAL); 
+00150:  MOVLW  C0
+00152:  IORWF  FF2,F
+....................    ENABLE_INTERRUPTS(INT_TIMER0); 
+00154:  BSF    FF2.5
+....................     
+....................    //Configuracion TMR 
+....................    SETUP_TIMER_0(/*T0_INTERNAL | T0_DIV_256*/RTCC_INTERNAL | RTCC_DIV_256); //Predivisor 
+00156:  MOVLW  87
+00158:  MOVWF  FD5
+....................    SET_TIMER0(144); //Valor de TMR 
+0015A:  CLRF   FD7
+0015C:  MOVLW  90
+0015E:  MOVWF  FD6
+....................  
+....................    while(1){ 
+....................        
+....................       if(banderaA){ 
+00160:  BTFSS  1E.0
+00162:  BRA    016C
+....................          banderaA = 0; 
+00164:  BCF    1E.0
+....................          rotacionAnilloA(anilloA); 
+00166:  MOVFF  1A,1F
+0016A:  RCALL  00CA
+....................       } 
+....................       if(banderaB){ 
+0016C:  BTFSS  1E.1
+0016E:  BRA    0178
+....................          banderaB = 0; 
+00170:  BCF    1E.1
+....................          rotacionAnilloA(anilloB); 
+00172:  MOVFF  1B,1F
+00176:  RCALL  00CA
+....................       } 
+....................       if(banderaC){ 
+00178:  BTFSS  1E.2
+0017A:  BRA    0184
+....................          banderaC = 0; 
+0017C:  BCF    1E.2
+....................          rotacionAnilloC(anilloC); 
+0017E:  MOVFF  1C,1F
+00182:  BRA    00DE
+....................       } 
+....................       if(banderaD){ 
+00184:  BTFSS  1E.3
+00186:  BRA    0190
+....................          banderaD = 0; 
+00188:  BCF    1E.3
+....................          rotacionAnilloD(anilloD); 
+0018A:  MOVFF  1D,1F
+0018E:  BRA    00F4
+....................       } 
+00190:  BRA    0160
+....................        
+....................       /* 
+....................       if(banderaContador){ //Si han pasado 100 ms 
+....................          puertoA <<= 1; 
+....................          contadorDos ++;  
+....................          banderaContador = 0; //Limpia la bandera 
+....................          if(contadorDos == 5){ //Si han pasado 500 ms 
+....................             puertoB <<= 1; 
+....................             contadorTres ++; 
+....................             contadorCuatro ++; 
+....................             contadorDos = 0; 
+....................             if(contadorTres == 2){ //Si han pasado 1000 ms 
+....................             puertoC <<= 1; 
+....................             contadorTres = 0; 
+....................             } 
+....................             if(contadorCuatro == 3){ //Si han pasado 1500 ms 
+....................             puertoD <<= 1; 
+....................             contadorCuatro = 0; 
+....................             } 
+....................          } 
+....................       } 
+....................        
+....................       output_a(puertoA); 
+....................       output_b(puertoB); 
+....................       output_c(puertoC); 
+....................       output_d(puertoD); 
+....................       */ 
+....................    } 
+.................... } 
+....................  
+00192:  SLEEP 
+.................... void rotacionAnilloA(int8 anilloA){ 
+....................    output_a(anilloA); 
+*
+000CA:  MOVFF  1F,F89
+....................    anilloA <<= 1; 
+000CE:  BCF    FD8.0
+000D0:  RLCF   1F,F
+....................    if(anilloA == 128){ 
+000D2:  MOVF   1F,W
+000D4:  SUBLW  80
+000D6:  BNZ   00DC
+....................       anilloA = 1; 
+000D8:  MOVLW  01
+000DA:  MOVWF  1F
+....................    } 
+000DC:  RETURN 0
+.................... } 
+....................  
+.................... void rotacionAnilloB(int8 anilloB){ 
+....................    output_b(anilloB); 
+....................    anilloB <<= 1; 
+....................    if(anilloB == 128){ 
+....................       anilloB = 1; 
+....................    } 
+.................... } 
+.................... void rotacionAnilloC(int8 anilloC){ 
+....................    output_c(anilloC); 
+000DE:  MOVFF  1F,F8B
+....................    anilloC <<= 1; 
+000E2:  BCF    FD8.0
+000E4:  RLCF   1F,F
+....................    if(anilloC == 128){ 
+000E6:  MOVF   1F,W
+000E8:  SUBLW  80
+000EA:  BNZ   00F0
+....................       anilloC = 1; 
+000EC:  MOVLW  01
+000EE:  MOVWF  1F
+....................    } 
+000F0:  GOTO   0184 (RETURN)
+.................... } 
+....................  
+.................... void rotacionAnilloD(int8 anilloD){ 
+....................    output_d(anilloD); 
+000F4:  MOVFF  1F,F8C
+....................    anilloD <<= 1; 
+000F8:  BCF    FD8.0
+000FA:  RLCF   1F,F
+....................    if(anilloD == 128){ 
+000FC:  MOVF   1F,W
+000FE:  SUBLW  80
+00100:  BNZ   0106
+....................       anilloD = 1; 
+00102:  MOVLW  01
+00104:  MOVWF  1F
+....................    } 
+00106:  GOTO   0190 (RETURN)
+.................... } 
+
+Configuration Fuses:
+   Word  1: 0800   INTRC_IO NOFCMEN NOIESO
+   Word  2: 1E18   PUT NOBROWNOUT BORV21 NOWDT WDT32768
+   Word  3: 0500   CCP2C1 NOPBADEN LPT1OSC NOMCLR
+   Word  4: 0081   STVREN NOLVP NOXINST NODEBUG
+   Word  5: C00F   NOPROTECT NOCPB NOCPD
+   Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
+   Word  7: 400F   NOEBTR NOEBTRB

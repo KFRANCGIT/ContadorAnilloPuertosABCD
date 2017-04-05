@@ -1,0 +1,96 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004     @INTERRUPT_AREA
+005     @INTERRUPT_AREA
+006     @INTERRUPT_AREA
+007     @INTERRUPT_AREA
+008     @INTERRUPT_AREA
+009     @INTERRUPT_AREA
+00A     @INTERRUPT_AREA
+00B     @INTERRUPT_AREA
+00C     @INTERRUPT_AREA
+00D     @INTERRUPT_AREA
+00E     @INTERRUPT_AREA
+00F     @INTERRUPT_AREA
+010     @INTERRUPT_AREA
+011     @INTERRUPT_AREA
+012     @INTERRUPT_AREA
+013     @INTERRUPT_AREA
+014     @INTERRUPT_AREA
+015     @INTERRUPT_AREA
+016     contador1
+017     contador2
+018     contador3
+019     contador4
+01A     anilloA
+01B     anilloB
+01C     anilloC
+01D     anilloD
+01E.0   banderaA
+01E.1   banderaB
+01E.2   banderaC
+01E.3   banderaD
+01F     rotacionAnilloC.anilloC
+01F     rotacionAnilloA.anilloA
+01F     rotacionAnilloD.anilloD
+F83     PSP_DATA
+FB4.6   C1OUT
+FB4.7   C2OUT
+FBB     CCP_2
+FBB     CCP_2_LOW
+FBC     CCP_2_HIGH
+FBE     CCP_1_LOW
+FBE     CCP_1
+FBF     CCP_1_HIGH
+FE1-FE2 @WRITE_PACKED_MEMORY.P1
+FE1-FE2 @READ_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PACKED_MEMORY.P1
+FE9-FEA @READ_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PROGRAM_MEMORY.P3
+FE9-FEA @READ_PROGRAM_MEMORY.P4
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P1
+FF6-FF8 @READ_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+000096  isr_TMR0
+0000CA  rotacionAnilloA
+0000DE  rotacionAnilloC
+0000F4  rotacionAnilloD
+00010A  @cinit1
+00010A  MAIN
+000136  @cinit2
+
+Project Directory:
+    D:\OneDrive\INGENIERIA TELEMATICA\4° Semestre\Sistemas Embebidos\PRACTICAS PROGRAMACION\ContadorAnilloPuertosABCD\
+
+Project Files:
+    ISR_TMR.c                                               [04-abr.-17 22:41  CRC=736D8614]
+    C:\Program Files (x86)\PICC\Devices\18f4620.h           [10-sep.-13 17:34  CRC=044A57BA]
+
+Source signature=7C023588
+
+Units:
+    ISR_TMR (main)
+
+Compiler Settings:
+    Processor:      PIC18F4620
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    XREF file:   ISR_TMR.xsym
+    Errors:      ISR_TMR.err
+    Ext Symbols: ISR_TMR.esym
+    INHX32:      ISR_TMR.hex
+    Symbols:     ISR_TMR.sym
+    List:        ISR_TMR.lst
+    Debug/COFF:  ISR_TMR.cof
+    Project:     ISR_TMR.ccspjt
+    Call Tree:   ISR_TMR.tre
+    Statistics:  ISR_TMR.STA

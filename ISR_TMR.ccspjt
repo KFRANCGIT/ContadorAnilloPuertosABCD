@@ -1,0 +1,16 @@
+[PROJECT]
+Target=ISR_TMR.hex
+Processor_Text=PIC18F4620
+CCSVersion=5.012
+Compiler=PCH
+[Target Data]
+FileList=ISR_TMR.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+[ISR_TMR.c]
+Type=4
+[mru-list]
+1=ISR_TMR.c
+[Units]
+Count=1
+1=ISR_TMR (main)
